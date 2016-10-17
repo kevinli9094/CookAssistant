@@ -25,7 +25,7 @@ public class LoginModel {
 
     public List<Dish> getDishes(){return Dishes;}
     public User getUser(){return User;}
-    public Long TryLogin(String Name, String password){
+    public Long tryLogin(String Name, String password){
         Long result = DBhelper.getUserId(Name,password);
         if (result > 0){
             this.User = new User(result, Name, password);
