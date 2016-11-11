@@ -3,6 +3,7 @@ package kl.cookassistant.Login;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import kl.cookassistant.MainMenu.MainMenuActivity;
 import kl.cookassistant.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -45,18 +47,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -66,31 +56,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private LoginPresenterImpl presenter;
 
     public AutoCompleteTextView getmEmailView(){
-        return mEmailView;
+        return (AutoCompleteTextView) findViewById(R.id.email);
     }
     public EditText getmPasswordView(){
-        return mPasswordView;
+        return (EditText) findViewById(R.id.password);
     }
     public String getIdString(int id){
         return getString(id);
     }
-    public void setShowProgress(boolean show){
-        this.showProgress(show);
-    }
-
-    public void setFinish(){
-        this.finish();
+    public void navigateToMainMenu(){
+        startActivity(new Intent(this, MainMenuActivity.class));
+        finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        presenter = new LoginPresenterImpl(this);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -104,15 +89,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mRegisterButton = (Button) findViewById(R.id.register_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 presenter.OnLoginButtonClick();
             }
         });
+        mRegisterButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.OnRegisterButtonClick();
+            }
+        });
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        presenter = new LoginPresenterImpl(this);
     }
 
     private void populateAutoComplete() {
@@ -247,7 +240,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -256,11 +248,5 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mEmailView.setAdapter(adapter);
     }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-
 }
 

@@ -34,18 +34,6 @@ public class ExampleInstrumentationTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         DBhelper da = new DBhelper(appContext);
 
-/*        da.insertNewUser("kevin", "password");
-        da.insertNewDish("potato", "des", true);*/
-
-        /*da.insertNewDishUserMap(1,1);*/
-
-        da.deleteUser("kevin", "password");
-
-        List<User> users = da.getAllUsers();
-        List<Tag> tags = da.getAllTags();
-        List<Dish> Dishes = da.getAllDishes();
-        List<DUMap> DUMaps = da.getAllDUMap();
-        List<DTMap> DTMaps = da.getAllDTMap();
         assertEquals("kl.cookassistant", appContext.getPackageName());
     }
 }

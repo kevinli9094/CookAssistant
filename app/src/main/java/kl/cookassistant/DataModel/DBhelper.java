@@ -60,6 +60,7 @@ public class DBhelper extends SQLiteOpenHelper{
                 " (" +
                 Dishes.COLUMN_ID + " INTEGER PRIMARY KEY," +
                 Dishes.COLUMN_NAME + " TEXT," +
+                Dishes.COLUMN_INGREDIENTS + " TEXT," +
                 Dishes.COLUMN_DESCRIPTION + " TEXT," +
                 Dishes.COLUMN_TIME_CREATED + " DATE," +
                 Dishes.COLUMN_IS_KNOWN + " BOOLEAN)";
@@ -128,6 +129,10 @@ public class DBhelper extends SQLiteOpenHelper{
         if(res ==null){
             return new Long(-1);
         }
+        if(res.getCount() <1){
+            res.close();
+            return new Long(-1);
+        }
         res.moveToFirst();
         Id = res.getLong(res.getColumnIndex(Users.COLUMN_ID));
         res.moveToNext();
@@ -156,7 +161,7 @@ public class DBhelper extends SQLiteOpenHelper{
         for(int i = 0; i<tags.size(); i++){
             Cursor mCur = db.rawQuery("SELECT " + Tags.COLUMN_ID + " FROM " + Tags.TABLE_NAME + " where " + Tags.COLUMN_NAME + "=?", new String[]{tags.get(i)});
             long TagId;
-            if(mCur == null){//record does not exist
+            if(mCur == null || mCur.getCount()<1){//record does not exist
                 TagId = insertNewTag(tags.get(i));
 
             }
@@ -227,6 +232,10 @@ public class DBhelper extends SQLiteOpenHelper{
         List<User> data = new ArrayList<User>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + Users.TABLE_NAME, null);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Users.COLUMN_ID));
@@ -244,6 +253,10 @@ public class DBhelper extends SQLiteOpenHelper{
         List<Tag> data = new ArrayList<Tag>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + Tags.TABLE_NAME, null);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Tags.COLUMN_ID));
@@ -260,6 +273,10 @@ public class DBhelper extends SQLiteOpenHelper{
         List<Dish> data = new ArrayList<Dish>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + Dishes.TABLE_NAME, null);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Dishes.COLUMN_ID));
@@ -280,6 +297,10 @@ public class DBhelper extends SQLiteOpenHelper{
         List<DUMap> data = new ArrayList<DUMap>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + DishUserMap.TABLE_NAME, null);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long DishId = res.getLong(res.getColumnIndex(DishUserMap.COLUMN_DISHID));
@@ -296,6 +317,10 @@ public class DBhelper extends SQLiteOpenHelper{
         List<DTMap> data = new ArrayList<DTMap>();
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor res = db.rawQuery("SELECT * FROM " + DishTagMap.TABLE_NAME, null);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long DishId = res.getLong(res.getColumnIndex(DishTagMap.COLUMN_DISHID));
@@ -317,6 +342,10 @@ public class DBhelper extends SQLiteOpenHelper{
                 "and DU." + DishUserMap.COLUMN_DISHID + "=D." + Dishes.COLUMN_ID
                 + " GROUP BY D." + Dishes.COLUMN_ID;
         Cursor res = db.rawQuery(query, new String[]{Long.toString(user.getID())});
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Dishes.COLUMN_ID));
@@ -342,6 +371,10 @@ public class DBhelper extends SQLiteOpenHelper{
                 "and DT." + DishTagMap.COLUMN_DISHID + "=D." + Dishes.COLUMN_ID
                 + " GROUP BY D." + Dishes.COLUMN_ID;
         Cursor res = db.rawQuery(query, new String[]{Long.toString(tag.getID())});
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Dishes.COLUMN_ID));
@@ -372,6 +405,10 @@ public class DBhelper extends SQLiteOpenHelper{
         }
         query += ") GROUP BY D." + Dishes.COLUMN_ID;
         Cursor res = db.rawQuery(query, inputSTRs);
+        if(res == null || res.getCount()<1){
+            res.close();
+            return data;
+        }
         res.moveToFirst();
         while(!res.isAfterLast()){
             Long id = res.getLong(res.getColumnIndex(Dishes.COLUMN_ID));

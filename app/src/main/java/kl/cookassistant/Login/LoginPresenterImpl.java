@@ -1,22 +1,23 @@
 package kl.cookassistant.Login;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import kl.cookassistant.Interfaces.Presenter;
+import kl.cookassistant.Interfaces.LoginPresenter;
 import kl.cookassistant.R;
 
 /**
  * Created by Li on 10/5/2016.
  */
 
-public class LoginPresenterImpl implements Presenter{
+public class LoginPresenterImpl implements LoginPresenter{
     private LoginActivity context;
     private LoginModel model;
-    private UserLoginTask mAuthTask = null;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
 
@@ -28,10 +29,12 @@ public class LoginPresenterImpl implements Presenter{
     }
 
     public void OnLoginButtonClick(){
-        if (mAuthTask != null) {
-            return;
+        if(mEmailView == null ){
+            this.mEmailView = context.getmEmailView();
         }
-
+        if(mPasswordView == null){
+            this.mPasswordView = context.getmPasswordView();
+        }
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -68,11 +71,71 @@ public class LoginPresenterImpl implements Presenter{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            context.setShowProgress(true);
-            mAuthTask = new LoginPresenterImpl.UserLoginTask(email, password, true);
-            mAuthTask.execute((Void) null);
+            Long result = model.tryLogin(email, password);
+            CharSequence text;
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast;
+            if(result>0){
+                text = "Successfully login";
+                context.navigateToMainMenu();
+            }
+            else{
+                text = "Fail to login";
+            }
+            toast = Toast.makeText(context,text, duration);
+            toast.show();
         }
 
+    }
+
+    public void OnRegisterButtonClick(){
+        CharSequence text;
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast;
+        if(mEmailView == null ){
+            this.mEmailView = context.getmEmailView();
+        }
+        if(mPasswordView == null){
+            this.mPasswordView = context.getmPasswordView();
+        }
+        String email = mEmailView.getText().toString();
+        String password = mPasswordView.getText().toString();
+        boolean cancel = false;
+        View focusView = null;
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mPasswordView.setError(context.getIdString(R.string.error_invalid_password));
+            focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mEmailView.setError(context.getIdString(R.string.error_field_required));
+            focusView = mEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mEmailView.setError(context.getIdString(R.string.error_invalid_email));
+            focusView = mEmailView;
+            cancel = true;
+        }
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+            text = "Invalid Input";
+            toast = Toast.makeText(context,text, duration);
+            toast.show();
+
+        } else {
+            if(model.tryRegister(email, password)){
+                text = "Successfully registered";
+            }
+            else{
+                text = "Fail to register";
+            }
+            toast = Toast.makeText(context,text, duration);
+            toast.show();
+        }
     }
 
     private boolean isEmailValid(String email) {
@@ -85,47 +148,5 @@ public class LoginPresenterImpl implements Presenter{
         return password.length() > 4;
     }
 
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
-        private boolean login;
-
-        UserLoginTask(String email, String password, boolean login) {
-            mEmail = email;
-            mPassword = password;
-            this.login = login;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-            if(login){
-                Long result = model.tryLogin(mEmail, mPassword);
-                return result > 0;
-            }
-
-            // TODO: register the new account here.
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            context.setShowProgress(false);
-
-            if (success) {
-                context.setFinish();
-            } else {
-                mPasswordView.setError(context.getIdString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            context.setShowProgress(false);
-        }
-    }
 }
