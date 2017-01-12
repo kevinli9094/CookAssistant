@@ -3,13 +3,19 @@ package kl.cookassistant.Login;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.security.NoSuchAlgorithmException;
+
 import kl.cookassistant.Interfaces.LoginPresenter;
-import kl.cookassistant.R;
+import cookingAssistant.kevin92.com.R;
+import se.simbio.encryption.Encryption;
+
+import static com.google.firebase.crash.FirebaseCrash.log;
 
 /**
  * Created by Li on 10/5/2016.
@@ -20,12 +26,31 @@ public class LoginPresenterImpl implements LoginPresenter{
     private LoginModel model;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private Encryption encryption;
 
     public LoginPresenterImpl(LoginActivity context){
         this.context = context;
         this.model = new LoginModel(context);
         this.mEmailView = context.getmEmailView();
         this.mPasswordView = context.getmPasswordView();
+        try{
+            this.encryption = new Encryption.Builder()
+                    .setKeyLength(128)
+                    .setKeyAlgorithm("AES")
+                    .setCharsetName("UTF8")
+                    .setIterationCount(65536)
+                    .setKey("mor€ZK3viNKYss")
+                    .setDigestAlgorithm("SHA1")
+                    .setSalt("kevin9094's salt")
+                    .setBase64Mode(Base64.DEFAULT)
+                    .setAlgorithm("AES/CBC/PKCS5Padding")
+                    .setSecureRandomAlgorithm("SHA1PRNG")
+                    .setSecretKeyType("PBKDF2WithHmacSHA1")
+                    .setIv(new byte[] { 29, 88, -79, -101, -108, -38, -126, 90, 52, 101, -35, 114, 12, -48, -66, -30 })
+                    .build();
+        }catch (NoSuchAlgorithmException e){
+            log("Encryption error: " + e.getMessage());
+        }
     }
 
     public void OnLoginButtonClick(){
@@ -69,14 +94,15 @@ public class LoginPresenterImpl implements LoginPresenter{
             // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
+            password = encryption.encryptOrNull(password);
             Long result = model.tryLogin(email, password);
             CharSequence text;
             int duration = Toast.LENGTH_SHORT;
             Toast toast;
             if(result>0){
                 text = "Successfully login";
+                context.saveLoginInfo(result, email, password);
+                context.rememberMeCheck();
                 context.navigateToMainMenu();
             }
             else{
@@ -127,6 +153,7 @@ public class LoginPresenterImpl implements LoginPresenter{
             toast.show();
 
         } else {
+            password = encryption.encryptOrNull(password);
             if(model.tryRegister(email, password)){
                 text = "Successfully registered";
             }
@@ -136,6 +163,15 @@ public class LoginPresenterImpl implements LoginPresenter{
             toast = Toast.makeText(context,text, duration);
             toast.show();
         }
+    }
+
+    public long tryGoogleLogin(String ID){
+        long result = model.tryLogin(ID,"google");
+        if(result <=0){
+            model.tryRegister(ID, "google");
+            result = model.tryLogin(ID,"google");
+        }
+        return result;
     }
 
     private boolean isEmailValid(String email) {

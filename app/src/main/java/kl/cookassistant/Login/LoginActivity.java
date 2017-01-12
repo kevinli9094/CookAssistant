@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,20 +29,35 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import kl.cookassistant.DataModel.User;
+import kl.cookassistant.GlobalVars;
 import kl.cookassistant.MainMenu.MainMenuActivity;
-import kl.cookassistant.R;
+import cookingAssistant.kevin92.com.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, GoogleApiClient.OnConnectionFailedListener {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -49,11 +66,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
     // UI references.
+    private static final String TAG = "SignInActivity";
+    private static final int RC_SIGN_IN = 9001;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    private View mProgressView;
-    private View mLoginFormView;
+    private GoogleApiClient gac;
     private LoginPresenterImpl presenter;
+    private SharedPreferences sharedpreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
 
     public AutoCompleteTextView getmEmailView(){
         return (AutoCompleteTextView) findViewById(R.id.email);
@@ -68,12 +88,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         startActivity(new Intent(this, MainMenuActivity.class));
         finish();
     }
+    public void saveLoginInfo(long id, String email, String encodedPassword){
+        sharedPreferencesEditor.putString("email", email).putString("password", encodedPassword).putLong("id", id).commit();
+        User currentUser = new User(id,encodedPassword, email);
+        GlobalVars.getInstance(currentUser);
+    }
+    public void rememberMeCheck(){
+        CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
+        if(rememberMeCheckBox.isChecked()){
+            sharedPreferencesEditor.putBoolean("isLogin", true).commit();
+        }else{
+            sharedPreferencesEditor.putBoolean("isLogin", false).commit();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        sharedpreferences = getSharedPreferences("CookingAssistant", MODE_PRIVATE);
+        sharedPreferencesEditor = sharedpreferences.edit();
+        boolean isLogin = sharedpreferences.getBoolean("isLogin",false);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        gac = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        gac.connect();
+        if(isLogin){
+            if(sharedpreferences.getString("signInMethod", null) == "google"){
+                silentLogin();
+            }
+            else{
+                navigateToMainMenu();
+            }
+        }
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -90,9 +142,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         Button mRegisterButton = (Button) findViewById(R.id.register_button);
+        SignInButton googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                sharedPreferencesEditor.putString("signInMethod", "email").commit();
                 presenter.OnLoginButtonClick();
             }
         });
@@ -102,10 +156,81 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 presenter.OnRegisterButtonClick();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        googleSignInButton.setOnClickListener(new OnClickListener(){
+            @Override
+            public void onClick(View view){
+                sharedPreferencesEditor.putString("signInMethod", "google");
+                Intent intent = Auth.GoogleSignInApi.getSignInIntent(gac);
+                startActivityForResult(intent, RC_SIGN_IN);
+            }
+        });
         presenter = new LoginPresenterImpl(this);
+    }
+
+    // [START onActivityResult]
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+        }
+    }
+    // [END onActivityResult]
+
+    // [START handleSignInResult]
+    private void handleSignInResult(GoogleSignInResult result) {
+        Log.d(TAG, "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!handleSignInResult:" + result.getStatus().toString());
+        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
+            String ID = acct.getId();
+            long rowId = presenter.tryGoogleLogin(ID);
+            saveLoginInfo(rowId,ID,"google");
+            rememberMeCheck();
+            navigateToMainMenu();
+        } else {
+            // Signed out, show unauthenticated UI.
+            Toast toast = Toast.makeText(this,"Fail to login", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
+    // [END handleSignInResult]
+
+    public void silentLogin() {
+        OptionalPendingResult<GoogleSignInResult> pendingResult = Auth.GoogleSignInApi.silentSignIn(gac);
+        if (pendingResult != null) {
+            handleGooglePendingResult(pendingResult);
+        } else {
+            //no result from silent login. Possibly display the login page again
+        }
+    }
+
+    private void handleGooglePendingResult(OptionalPendingResult<GoogleSignInResult> pendingResult) {
+        if (pendingResult.isDone()) {
+            // There's immediate result available.
+            GoogleSignInResult signInResult = pendingResult.get();
+            onSilentSignInCompleted(signInResult);
+        } else {
+            // There's no immediate result ready,  waits for the async callback.
+            pendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult signInResult) {
+                    onSilentSignInCompleted(signInResult);
+                }
+            });
+        }
+    }
+
+    private void onSilentSignInCompleted(GoogleSignInResult signInResult) {
+        GoogleSignInAccount signInAccount = signInResult.getSignInAccount();
+        if (signInAccount != null) {
+            saveLoginInfo(sharedpreferences.getLong("id",0), sharedpreferences.getString("email",null),sharedpreferences.getString("password", null));
+            navigateToMainMenu();
+        }
     }
 
     private void populateAutoComplete() {
@@ -151,49 +276,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
-
-
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mLoginFormView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
     @Override

@@ -333,15 +333,16 @@ public class DBhelper extends SQLiteOpenHelper{
         return data;
     }//checked
 
-    public List<Dish> getAllDishes(User user) {
+    public List<Dish> getAllDishes(User user, boolean isKnownDishes) {
         List<Dish> data = new ArrayList<Dish>();
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT D.* FROM " + Dishes.TABLE_NAME + " D, " +
                 DishUserMap.TABLE_NAME + " DU " +
                 "WHERE DU." + DishUserMap.COLUMN_USERID + "=? " +
-                "and DU." + DishUserMap.COLUMN_DISHID + "=D." + Dishes.COLUMN_ID
+                "and DU." + DishUserMap.COLUMN_DISHID + "=D." + Dishes.COLUMN_ID +
+                "and D." + Dishes.COLUMN_IS_KNOWN + "=?"
                 + " GROUP BY D." + Dishes.COLUMN_ID;
-        Cursor res = db.rawQuery(query, new String[]{Long.toString(user.getID())});
+        Cursor res = db.rawQuery(query, new String[]{Long.toString(user.getID()), Integer.toString(isKnownDishes?1:0)});
         if(res == null || res.getCount()<1){
             res.close();
             return data;

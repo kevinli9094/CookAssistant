@@ -1,0 +1,110 @@
+{
+  "project_info": {
+    "project_number": "459089127864",
+    "project_id": "cooking-assistant-9094"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459089127864:android:c3e35b0afde83e96",
+        "android_client_info": {
+          "package_name": "CookingAssistant.kevin92.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459089127864-ud3e93qeu1sak5lkoc9vt4o0pcecmtlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMDB5S_SC1EYrDDcTijksIG8YkLfTjMAM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459089127864:android:feaa133651c69783",
+        "android_client_info": {
+          "package_name": "cookingAssistant.kevin92.com"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459089127864-eolba300ofnub5b03p4vcjbd11kquo9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cookingAssistant.kevin92.com",
+            "certificate_hash": "399E1BEFDCAD49D3B41E9000C6F3A8CD2191E035"
+          }
+        },
+        {
+          "client_id": "459089127864-ud3e93qeu1sak5lkoc9vt4o0pcecmtlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMDB5S_SC1EYrDDcTijksIG8YkLfTjMAM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459089127864:android:a91a279d9aa2f868",
+        "android_client_info": {
+          "package_name": "kl.cookassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459089127864-ud3e93qeu1sak5lkoc9vt4o0pcecmtlv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMDB5S_SC1EYrDDcTijksIG8YkLfTjMAM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

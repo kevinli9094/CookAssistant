@@ -1,18 +1,14 @@
 package kl.cookassistant.MainMenu;
+import kl.cookassistant.DisplayDishes.DisPlayDishesActivity;
 import kl.cookassistant.Login.LoginActivity;
-import kl.cookassistant.Login.LoginPresenterImpl;
-import kl.cookassistant.R;
+import cookingAssistant.kevin92.com.R;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * Created by Li on 11/1/2016.
@@ -25,12 +21,17 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button shoppingListButton;
     private Button logOutButton;
     private Button quitButton;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditor;
     private MainMenuPresenterImpl presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
-        // Set up the login form.
+
+        sharedPreferences = getSharedPreferences("CookingAssistant", MODE_PRIVATE);
+        sharedPreferencesEditor = sharedPreferences.edit();
         knownDishesButton = (Button) findViewById(R.id.Known_Dishes_button);
         unknownDishesButton = (Button) findViewById(R.id.Unknown_Dishes_Button);
         searchButton = (Button) findViewById(R.id.Search_Button);
@@ -78,11 +79,15 @@ public class MainMenuActivity extends AppCompatActivity {
         presenter = new MainMenuPresenterImpl(this);
     }
 
-    public void navigateToKnowDishes(){}
+    public void navigateToKnowDishes(){
+        startActivity(new Intent(this, DisPlayDishesActivity.class));
+        finish();
+    }
     public void navigateToUnknowDishes(){}
     public void navigateToSearch(){}
     public void navigateToShoppingList(){}
     public void navigateToLogin(){
+        sharedPreferencesEditor.putBoolean("isLogin", false).commit();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }

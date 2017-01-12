@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemDeleteButtom"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/itemViewButtom"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_marginTop="23dp" />
+
+    <Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemViewButtom"
+        android:layout_alignBaseline="@+id/itemDeleteButtom"
+        android:layout_alignBottom="@+id/itemDeleteButtom"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:id="@+id/itemText"
+        android:layout_toStartOf="@+id/itemDeleteButtom"
+        android:layout_alignBottom="@+id/itemDeleteButtom"
+        android:layout_alignTop="@+id/itemDeleteButtom" />
+</RelativeLayout>
