@@ -1,15 +1,17 @@
 package kl.cookassistant.DataModel;
 
 /**
- * Created by Li on 9/20/2016.
+ * Created by Li on 2/1/2017.
  */
 
-public class Tag {
+public class Type {
     private Long ID;
     private String Name;
-    public Tag(Long ID, String Name){
+    private boolean checked;
+    public Type(Long ID, String Name){
         this.ID = ID;
         this.Name = Name;
+        this.checked = false;
     }
     public Long getID(){
         return ID;
@@ -17,10 +19,16 @@ public class Tag {
     public String getName(){
         return Name;
     }
+    public void setChecked(boolean isChecked){
+        this.checked = isChecked;
+    }
+    public boolean getChecked(){
+        return this.checked;
+    }
 
     @Override
     public boolean equals(Object d){
-        return this.ID.equals(((Tag)d).getID());
+        return this.ID.equals(((Type)d).getID());
     }
 
     @Override

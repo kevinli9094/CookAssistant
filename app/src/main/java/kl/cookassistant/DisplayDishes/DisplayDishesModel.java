@@ -4,7 +4,9 @@ import android.content.Context;
 
 import java.util.List;
 
+import kl.cookassistant.DataModel.DBhelper;
 import kl.cookassistant.DataModel.Dish;
+import kl.cookassistant.DataModel.Tag;
 import kl.cookassistant.DataModel.User;
 
 /**
@@ -25,7 +27,21 @@ public class DisplayDishesModel {
         this.dishes = DBhelper.getAllDishes(user, isKnown);
         return this.dishes;
     }
+
+    public List<Dish> search(List<Tag> ingredientList, boolean isKnown){
+        this.dishes = DBhelper.getSearchResult(user, isKnown, ingredientList);
+        return this.dishes;
+    }
+
     public User getUser(){
         return user;
+    }
+
+    public boolean deleteDish(int position){
+        boolean rs = this.DBhelper.deleteDish(dishes.get(position).getID());
+        if(rs){
+            dishes.remove(position);
+        }
+        return rs;
     }
 }

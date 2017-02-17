@@ -30,27 +30,4 @@ public class LoginModel {
         return DBhelper.insertNewUser(Name, password)>0;
     }
 
-
-    //should be moved to other model
-//    public boolean addDish(String Name, List<String> Ingredients, String Description, boolean IsKnown){
-//        Date now = new Date();
-//        Long ID =  DBhelper.insertNewDish(Name, Ingredients, Description, now, IsKnown, this.User);
-//        if(ID > 0){
-//            this.Dishes.add(new Dish(ID,Name,Ingredients,Description,now,IsKnown));
-//            return true;
-//        }
-//        return false;
-//    }
-//    public boolean removeDish(Long DishId){
-//        return DBhelper.removeDUMap(DishId,this.User.getID());
-//    }
-//    public List<Tag> getAllTags(){
-//        return DBhelper.getAllTags();
-//    }
-//    public List<Dish> getAllDishes(Tag tag){
-//        return DBhelper.getAllDishes(tag);
-//    }
-//    public List<Dish> getAllDishes(List<Tag> tags){
-//        return DBhelper.getAllDishes(tags);
-//    }
 }

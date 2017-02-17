@@ -53,6 +53,13 @@
         tools:text="Shopping List" />
 
     <Button
+        android:text="tag manager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tagManagerButton"
+        android:layout_weight="0.01" />
+
+    <Button
         android:text="Log Out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

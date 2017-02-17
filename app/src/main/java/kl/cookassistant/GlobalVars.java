@@ -1,6 +1,10 @@
 package kl.cookassistant;
 
+import java.util.List;
+
 import kl.cookassistant.DataModel.Dish;
+import kl.cookassistant.DataModel.Tag;
+import kl.cookassistant.DataModel.TagsManagerMode;
 import kl.cookassistant.DataModel.User;
 
 /**
@@ -11,6 +15,11 @@ public class GlobalVars {
     private User currentUser;
     private Dish currentDish;
     private boolean isKnown;
+    private boolean createMode;
+    private boolean onSearch;
+    private boolean backFromTagManager = false;
+    private TagsManagerMode mode;
+    private List<Tag> ingredientList;
 
     public static GlobalVars getInstance(User user) {
         if(ourInstance == null){
@@ -45,5 +54,43 @@ public class GlobalVars {
 
     public void setKnown(boolean isKnown){
         this.isKnown = isKnown;
+    }
+
+    public void setCreateMode(boolean isCreateMode){
+        this.createMode = isCreateMode;
+    }
+
+    public boolean getCreateMode(){
+        return this.createMode;
+    }
+
+    public void setOnSearch(boolean searching){
+        this.onSearch = searching;
+    }
+
+    public boolean getOnSearch(){
+        return this.onSearch;
+    }
+
+    public void setIngredientList(List<Tag> strList){
+        this.ingredientList = strList;
+    }
+    public List<Tag> getIngredientList(){
+        return this.ingredientList;
+    }
+
+    public void setMode(TagsManagerMode mode){
+        this.mode =  mode;
+    }
+
+    public TagsManagerMode getMode(){
+        return this.mode;
+    }
+
+    public void setBackFromTagManager(boolean bool){
+        this.backFromTagManager = bool;
+    }
+    public boolean getBackFromTagManager() {
+        return this.backFromTagManager;
     }
 }

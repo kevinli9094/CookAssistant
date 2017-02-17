@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <Button
-        android:text="Button"
+        android:text="Delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemDeleteButtom"
@@ -15,7 +15,7 @@
         android:layout_marginTop="23dp" />
 
     <Button
-        android:text="Button"
+        android:text="Edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/itemViewButtom"

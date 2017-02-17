@@ -90,8 +90,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
     public void saveLoginInfo(long id, String email, String encodedPassword){
         sharedPreferencesEditor.putString("email", email).putString("password", encodedPassword).putLong("id", id).commit();
-        User currentUser = new User(id,encodedPassword, email);
-        GlobalVars.getInstance(currentUser);
     }
     public void rememberMeCheck(){
         CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);

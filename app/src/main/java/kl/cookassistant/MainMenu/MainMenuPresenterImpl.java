@@ -1,7 +1,5 @@
 package kl.cookassistant.MainMenu;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -18,24 +16,27 @@ import kl.cookassistant.Interfaces.MainMenuPresenter;
 
 public class MainMenuPresenterImpl implements MainMenuPresenter{
     private MainMenuActivity context;
+    private GlobalVars mGV;
     public MainMenuPresenterImpl(MainMenuActivity context){
         this.context = context;
+        mGV = GlobalVars.getInstance();
     }
 
     public void onKnownDishesButtonClicked(){
-        context.navigateToKnowDishes();
+        mGV.setKnown(true);
+        context.navigateToDishList();
     }
     public void onUnknownDishesButtonClicked(){
-        context.navigateToUnknowDishes();
+        mGV.setKnown(false);
+        context.navigateToDishList();
     }
     public void onSearchButtonClicked(){
-        //// TODO: 1/11/2017 remove the next line!!!!
-        tempFunction();
         context.navigateToSearch();
     }
     public void onShoppingListButtonClicked(){
         context.navigateToShoppingList();
     }
+    public void onTagManagerButtonClicked(){context.navigateToTagManager();}
     public void onLogOutButtonClicked(){
         context.navigateToLogin();
     }
@@ -43,15 +44,14 @@ public class MainMenuPresenterImpl implements MainMenuPresenter{
         context.Quit();
     }
 
-    private void tempFunction(){
-        DBhelper tempDBhelper = new DBhelper(context);
-        GlobalVars mGV = GlobalVars.getInstance();
-        User currentUser = mGV.getCurrentUser();
-        String name = "test";
-        List<String> strs = new ArrayList<String>(Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l"));
-        String longDescription = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        Date today = new Date();
-        boolean isKnown = true;
-        tempDBhelper.insertNewDish(name,strs,longDescription,today,isKnown,currentUser);
-    }
+//    private void tempFunction(){
+//        DBhelper tempDBhelper = new DBhelper(context);
+//        User currentUser = mGV.getCurrentUser();
+//        String name = "long ass name !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ABC                                     you suck";
+//        List<String> strs = new ArrayList<String>(Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l"));
+//        String longDescription = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+//        Date today = new Date();
+//        boolean isKnown = true;
+//        tempDBhelper.insertNewDish(name,strs,longDescription,today,isKnown,currentUser);
+//    }
 }
