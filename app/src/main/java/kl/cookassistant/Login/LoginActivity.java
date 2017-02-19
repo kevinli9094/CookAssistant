@@ -49,6 +49,7 @@ import java.util.List;
 
 import kl.cookassistant.DataModel.User;
 import kl.cookassistant.GlobalVars;
+import kl.cookassistant.Interfaces.LoginPresenter;
 import kl.cookassistant.MainMenu.MainMenuActivity;
 import cookingAssistant.kevin92.com.R;
 
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private GoogleApiClient gac;
-    private LoginPresenterImpl presenter;
+    private LoginPresenter presenter;
     private SharedPreferences sharedpreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
 

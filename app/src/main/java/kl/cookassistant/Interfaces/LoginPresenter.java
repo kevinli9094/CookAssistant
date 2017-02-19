@@ -7,6 +7,7 @@ import android.content.Context;
  */
 
 public interface LoginPresenter {
-    public void OnLoginButtonClick();
-    public void OnRegisterButtonClick();
+    void OnLoginButtonClick();
+    void OnRegisterButtonClick();
+    long tryGoogleLogin(String ID);
 }

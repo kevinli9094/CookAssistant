@@ -4,6 +4,7 @@ import kl.cookassistant.DataModel.TagsManagerMode;
 import kl.cookassistant.DataModel.User;
 import kl.cookassistant.DisplayDishes.DisPlayDishesActivity;
 import kl.cookassistant.GlobalVars;
+import kl.cookassistant.Interfaces.MainMenuPresenter;
 import kl.cookassistant.Login.LoginActivity;
 import cookingAssistant.kevin92.com.R;
 import kl.cookassistant.ShoppingList.ShoppingListAcrivity;
@@ -34,8 +35,40 @@ public class MainMenuActivity extends AppCompatActivity {
     private Button quitButton;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditor;
-    private MainMenuPresenterImpl presenter;
-    GlobalVars mGV;
+    private MainMenuPresenter presenter;
+    private GlobalVars mGV;
+
+    public void navigateToDishList(){
+        startActivity(new Intent(this, DisPlayDishesActivity.class));
+        finish();
+    }
+    public void navigateToSearch(){
+        mGV.setIngredientList(new ArrayList<Tag>());
+        mGV.setMode(TagsManagerMode.Search);
+        startActivity(new Intent(this, TagsManagerActivity.class));
+        finish();
+    }
+    public void navigateToShoppingList(){
+        startActivity(new Intent(this, ShoppingListAcrivity.class));
+        finish();
+    }
+    public void navigateToTagManager(){
+        mGV.setIngredientList(new ArrayList<Tag>());
+        mGV.setMode(TagsManagerMode.Manage);
+        startActivity(new Intent(this, TagsManagerActivity.class));
+        finish();
+    }
+    public void navigateToLogin(){
+        sharedPreferencesEditor.putBoolean("isLogin", false).commit();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+    }
+    public void Quit(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,38 +135,6 @@ public class MainMenuActivity extends AppCompatActivity {
         });
 
         presenter = new MainMenuPresenterImpl(this);
-    }
-
-    public void navigateToDishList(){
-        startActivity(new Intent(this, DisPlayDishesActivity.class));
-        finish();
-    }
-    public void navigateToSearch(){
-        mGV.setIngredientList(new ArrayList<Tag>());
-        mGV.setMode(TagsManagerMode.Search);
-        startActivity(new Intent(this, TagsManagerActivity.class));
-        finish();
-    }
-    public void navigateToShoppingList(){
-        startActivity(new Intent(this, ShoppingListAcrivity.class));
-        finish();
-    }
-    public void navigateToTagManager(){
-        mGV.setIngredientList(new ArrayList<Tag>());
-        mGV.setMode(TagsManagerMode.Manage);
-        startActivity(new Intent(this, TagsManagerActivity.class));
-        finish();
-    }
-    public void navigateToLogin(){
-        sharedPreferencesEditor.putBoolean("isLogin", false).commit();
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
-    }
-    public void Quit(){
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 }
 

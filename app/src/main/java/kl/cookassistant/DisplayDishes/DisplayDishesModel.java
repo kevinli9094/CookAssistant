@@ -14,7 +14,6 @@ import kl.cookassistant.DataModel.User;
  */
 
 public class DisplayDishesModel {
-    private List<Dish> dishes;
     private kl.cookassistant.DataModel.User user;
     private kl.cookassistant.DataModel.DBhelper DBhelper;
 
@@ -24,24 +23,18 @@ public class DisplayDishesModel {
     }
 
     public List<Dish> getDishes(boolean isKnown){
-        this.dishes = DBhelper.getAllDishes(user, isKnown);
-        return this.dishes;
+        return DBhelper.getAllDishes(user, isKnown);
     }
 
     public List<Dish> search(List<Tag> ingredientList, boolean isKnown){
-        this.dishes = DBhelper.getSearchResult(user, isKnown, ingredientList);
-        return this.dishes;
+        return DBhelper.getSearchResult(user, isKnown, ingredientList);
     }
 
     public User getUser(){
         return user;
     }
 
-    public boolean deleteDish(int position){
-        boolean rs = this.DBhelper.deleteDish(dishes.get(position).getID());
-        if(rs){
-            dishes.remove(position);
-        }
-        return rs;
+    public boolean deleteDish(Dish dish){
+        return this.DBhelper.deleteDish(dish.getID());
     }
 }

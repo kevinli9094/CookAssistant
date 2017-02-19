@@ -43,7 +43,6 @@ public class GlobalVars {
     public Dish getCurrentDish(){
         return currentDish;
     }
-
     public void setCurrentDish(Dish dish){
         this.currentDish = dish;
     }
@@ -51,7 +50,6 @@ public class GlobalVars {
     public boolean getKnown(){
         return isKnown;
     }
-
     public void setKnown(boolean isKnown){
         this.isKnown = isKnown;
     }
@@ -59,7 +57,6 @@ public class GlobalVars {
     public void setCreateMode(boolean isCreateMode){
         this.createMode = isCreateMode;
     }
-
     public boolean getCreateMode(){
         return this.createMode;
     }
@@ -67,7 +64,6 @@ public class GlobalVars {
     public void setOnSearch(boolean searching){
         this.onSearch = searching;
     }
-
     public boolean getOnSearch(){
         return this.onSearch;
     }
@@ -82,7 +78,6 @@ public class GlobalVars {
     public void setMode(TagsManagerMode mode){
         this.mode =  mode;
     }
-
     public TagsManagerMode getMode(){
         return this.mode;
     }

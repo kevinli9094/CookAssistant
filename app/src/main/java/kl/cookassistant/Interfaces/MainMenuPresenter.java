@@ -9,6 +9,7 @@ public interface MainMenuPresenter {
     void onUnknownDishesButtonClicked();
     void onSearchButtonClicked();
     void onShoppingListButtonClicked();
+    void onTagManagerButtonClicked();
     void onLogOutButtonClicked();
     void onQuitButtonClicked();
 }

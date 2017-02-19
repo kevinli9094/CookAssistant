@@ -43,15 +43,4 @@ public class MainMenuPresenterImpl implements MainMenuPresenter{
     public void onQuitButtonClicked(){
         context.Quit();
     }
-
-//    private void tempFunction(){
-//        DBhelper tempDBhelper = new DBhelper(context);
-//        User currentUser = mGV.getCurrentUser();
-//        String name = "long ass name !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!ABC                                     you suck";
-//        List<String> strs = new ArrayList<String>(Arrays.asList("a","b","c","d","e","f","g","h","i","j","k","l"));
-//        String longDescription = "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-//        Date today = new Date();
-//        boolean isKnown = true;
-//        tempDBhelper.insertNewDish(name,strs,longDescription,today,isKnown,currentUser);
-//    }
 }
