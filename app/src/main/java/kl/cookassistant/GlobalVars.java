@@ -18,6 +18,7 @@ public class GlobalVars {
     private boolean createMode;
     private boolean onSearch;
     private boolean backFromTagManager = false;
+    private boolean onCombineTag;
     private TagsManagerMode mode;
     private List<Tag> ingredientList;
 
@@ -66,6 +67,13 @@ public class GlobalVars {
     }
     public boolean getOnSearch(){
         return this.onSearch;
+    }
+
+    public void setOnCombineTag(boolean comnine){
+        this.onCombineTag = comnine;
+    }
+    public boolean getOnCombineTag(){
+        return this.onCombineTag;
     }
 
     public void setIngredientList(List<Tag> strList){

@@ -30,11 +30,11 @@ public class NewTagModel {
         return this.data;
     }
 
-    public boolean createNewTag(String newTagName, Type type){
+    public Long createNewTag(String newTagName, Type type){
         //todo what happen if there are two item with same name;
         Long newTagId = dBhelper.insertNewTag(newTagName,currentUser);
         boolean rs = type == null? true: dBhelper.insertNewTagTypeMap(newTagId, type.getID())>0;
-        return rs;
+        return rs?newTagId:-1;
     }
 
     public Long inseartNewType(String typeName){
@@ -44,5 +44,13 @@ public class NewTagModel {
             data.add(newType);
         }
         return newId;
+    }
+
+    public boolean combineTags(List<Tag> tags, Tag newTag){
+        boolean rs = true;
+        for(int i = 0;i<tags.size(); i++){
+            rs = rs && dBhelper.replaceWithNewTag(tags.get(i), newTag,currentUser) && dBhelper.deleteTag(tags.get(i),currentUser);
+        }
+        return rs;
     }
 }

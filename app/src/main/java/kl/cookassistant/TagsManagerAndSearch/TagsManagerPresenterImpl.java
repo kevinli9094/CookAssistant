@@ -41,7 +41,6 @@ public class TagsManagerPresenterImpl implements TagsManagerPresenter{
     private User currentUser;
     private TagsManagerMode mode;
 
-
     public TagsManagerPresenterImpl(TagsManagerActivity context){
         this.context = context;
         this.mGV = GlobalVars.getInstance();
@@ -54,18 +53,8 @@ public class TagsManagerPresenterImpl implements TagsManagerPresenter{
         this.expandableListView.setAdapter(mAdapter);
     }
 
-
-
-    private boolean updateDish(Dish dish){
-        return model.updateDish(dish);
-    }
-
     private boolean deleteTag(Tag tag){
         return model.deleteTag(tag);
-    }
-
-    private boolean combineTags(List<Tag> tags, String newTagName){
-        return model.combineTags(tags, newTagName);
     }
 
     private LinkedHashMap<Type, List<Tag>> getExpandableData() {
@@ -90,6 +79,10 @@ public class TagsManagerPresenterImpl implements TagsManagerPresenter{
     }
     public void onCombineSelectedClicked(){
         //TODO:combine selected tag
+        mGV.setIngredientList(mAdapter.allSelectedTag());
+        mGV.setOnCombineTag(true);
+        context.navigateToNewTagActivity();
+
     }
     public void onAddToDishClicked(){
         mGV.setBackFromTagManager(true);

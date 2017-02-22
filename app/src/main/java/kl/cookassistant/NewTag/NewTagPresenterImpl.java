@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import java.util.List;
 
 import cookingAssistant.kevin92.com.R;
+import kl.cookassistant.DataModel.Tag;
 import kl.cookassistant.DataModel.Type;
 import kl.cookassistant.DataModel.User;
 import kl.cookassistant.GlobalVars;
@@ -49,7 +50,7 @@ public class NewTagPresenterImpl implements NewTagPresenter{
         return model.getAllTypes();
     }
 
-    private boolean createNewTag(String name, Type type){
+    private Long createNewTag(String name, Type type){
         return model.createNewTag(name,type);
     }
 
@@ -58,7 +59,12 @@ public class NewTagPresenterImpl implements NewTagPresenter{
     }
 
     public void onOkButtonClicked(){
-        createNewTag(context.getNewTagName().getText().toString(), currentSelectedTypePosition == -1? null:getAllTypes().get(currentSelectedTypePosition));
+        Long newId = createNewTag(context.getNewTagName().getText().toString(), currentSelectedTypePosition == -1? null:getAllTypes().get(currentSelectedTypePosition));
+        Tag newTag = new Tag(newId, context.getNewTagName().getText().toString());
+        if(newId>0 && mGV.getOnCombineTag()){
+            mGV.setOnCombineTag(false);
+            model.combineTags(mGV.getIngredientList(),newTag);
+        }
         context.navigateToTagsManagerActivity();
     }
 

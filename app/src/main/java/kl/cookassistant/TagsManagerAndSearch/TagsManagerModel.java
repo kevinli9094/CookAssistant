@@ -44,6 +44,10 @@ public class TagsManagerModel {
         return rs;
     }
 
+    public boolean isTagUsed(Tag tag){
+        return dBhelper.isTagUsed(tag,currentUser);
+    }
+
     public LinkedHashMap<Type, List<Tag>> getExpandableData() {
         data = new LinkedHashMap<>();
         //get all types
