@@ -6,7 +6,7 @@
     android:weightSum="1">
 
     <TextView
-        android:text="Main Menu"
+        android:text="@string/text_view_main_menu"
         android:layout_width="367dp"
         android:layout_height="wrap_content"
         android:id="@+id/title"
@@ -19,48 +19,63 @@
         android:layout_marginTop="20dp" />
 
     <Button
-        android:text="Known Dishes"
+        android:text="@string/action_known_dish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Known_Dishes_button"
         android:layout_weight="0.01"
         tools:text="Known Dishes"
         android:elevation="0dp"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
 
     <Button
-        android:text="Unknown Dishes"
+        android:text="@string/action_unknow_dish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Unknown_Dishes_Button"
         android:layout_weight="0.01"
-        tools:text="Unknown Dishes" />
+        tools:text="Unknown Dishes"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
 
     <Button
-        android:text="Search"
+        android:text="@string/action_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Search_Button"
         android:layout_weight="0.01"
-        tools:text="Search" />
+        tools:text="Search"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
 
     <Button
-        android:text="Shopping List"
+        android:text="@string/action_shopping_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Shopping_List_Button"
         android:layout_weight="0.01"
-        tools:text="Shopping List" />
+        tools:text="Shopping List"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
 
     <Button
-        android:text="tag manager"
+        android:text="@string/action_tag_manager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tagManagerButton"
-        android:layout_weight="0.01" />
+        android:layout_weight="0.01"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="10dp"/>
 
     <Button
-        android:text="Log Out"
+        android:text="@string/action_log_out"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Log_Out_Button"
@@ -68,7 +83,7 @@
         tools:text="Log Out" />
 
     <Button
-        android:text="Quit"
+        android:text="@string/action_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Quit_Button"

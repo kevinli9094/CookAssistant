@@ -19,6 +19,7 @@ public class GlobalVars {
     private boolean onSearch;
     private boolean backFromTagManager = false;
     private boolean onCombineTag;
+    private boolean isView;
     private TagsManagerMode mode;
     private List<Tag> ingredientList;
 
@@ -95,5 +96,12 @@ public class GlobalVars {
     }
     public boolean getBackFromTagManager() {
         return this.backFromTagManager;
+    }
+
+    public void setIsView(boolean flag){
+        this.isView = flag;
+    }
+    public boolean getIsView(){
+        return this.isView;
     }
 }

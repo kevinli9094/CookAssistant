@@ -1,7 +1,5 @@
 package kl.cookassistant.Login;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,12 +13,10 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -47,8 +43,6 @@ import com.google.android.gms.common.api.ResultCallback;
 import java.util.ArrayList;
 import java.util.List;
 
-import kl.cookassistant.DataModel.User;
-import kl.cookassistant.GlobalVars;
 import kl.cookassistant.Interfaces.LoginPresenter;
 import kl.cookassistant.MainMenu.MainMenuActivity;
 import cookingAssistant.kevin92.com.R;
@@ -90,14 +84,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         finish();
     }
     public void saveLoginInfo(long id, String email, String encodedPassword){
-        sharedPreferencesEditor.putString("email", email).putString("password", encodedPassword).putLong("id", id).commit();
+        sharedPreferencesEditor.putString(getString(R.string.shared_preferences_email), email)
+                .putString(getString(R.string.shared_preferences_password), encodedPassword)
+                .putLong(getString(R.string.shared_preferences_id), id).commit();
     }
     public void rememberMeCheck(){
         CheckBox rememberMeCheckBox = (CheckBox) findViewById(R.id.rememberMeCheckBox);
         if(rememberMeCheckBox.isChecked()){
-            sharedPreferencesEditor.putBoolean("isLogin", true).commit();
+            sharedPreferencesEditor.putBoolean(getString(R.string.shared_preferences_is_login), true).commit();
         }else{
-            sharedPreferencesEditor.putBoolean("isLogin", false).commit();
+            sharedPreferencesEditor.putBoolean(getString(R.string.shared_preferences_is_login), false).commit();
         }
     }
 
@@ -106,9 +102,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        sharedpreferences = getSharedPreferences("CookingAssistant", MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         sharedPreferencesEditor = sharedpreferences.edit();
-        boolean isLogin = sharedpreferences.getBoolean("isLogin",false);
+        boolean isLogin = sharedpreferences.getBoolean(getString(R.string.shared_preferences_is_login),false);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -118,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 .build();
         gac.connect();
         if(isLogin){
-            if(sharedpreferences.getString("signInMethod", null) == "google"){
+            if(sharedpreferences.getString(getString(R.string.sign_in_method), null) == getString(R.string.sign_in_method_google)){
                 silentLogin();
             }
             else{
@@ -141,11 +137,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         Button mRegisterButton = (Button) findViewById(R.id.register_button);
-        SignInButton googleSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        SignInButton googleSignInButton = (SignInButton) findViewById(R.id.google_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                sharedPreferencesEditor.putString("signInMethod", "email").commit();
+                sharedPreferencesEditor.putString(getString(R.string.sign_in_method), getString(R.string.sign_in_method_email)).commit();
                 presenter.OnLoginButtonClick();
             }
         });
@@ -158,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         googleSignInButton.setOnClickListener(new OnClickListener(){
             @Override
             public void onClick(View view){
-                sharedPreferencesEditor.putString("signInMethod", "google");
+                sharedPreferencesEditor.putString(getString(R.string.sign_in_method), getString(R.string.sign_in_method_google)).commit();
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(gac);
                 startActivityForResult(intent, RC_SIGN_IN);
             }
@@ -188,7 +184,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             GoogleSignInAccount acct = result.getSignInAccount();
             String ID = acct.getId();
             long rowId = presenter.tryGoogleLogin(ID);
-            saveLoginInfo(rowId,ID,"google");
+            saveLoginInfo(rowId,ID,getString(R.string.sign_in_method_google));
             rememberMeCheck();
             navigateToMainMenu();
         } else {

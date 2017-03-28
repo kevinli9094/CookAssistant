@@ -5,7 +5,7 @@
 
     <ExpandableListView
         android:layout_width="match_parent"
-        android:layout_height="438dp"
+        android:layout_height="415dp"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="0.5dp"
@@ -15,17 +15,26 @@
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:id="@+id/tagManagerButton1" />
+        android:id="@+id/tagManagerButton1"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="5dp"/>
 
     <Button
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:id="@+id/tagManagerButton2" />
+        android:id="@+id/tagManagerButton2"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="5dp"/>
 
     <Button
         android:text="Button"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:id="@+id/tagManagerButton3" />
+        android:id="@+id/tagManagerButton3"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="5dp"/>
 </LinearLayout>

@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="Name"
+                android:text="@string/dish_editor_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/NameTextView" />
@@ -26,12 +26,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPersonName"
-                android:text="Name"
                 android:ems="10"
                 android:id="@+id/NameTextEditor" />
 
             <TextView
-                android:text="Description"
+                android:text="@string/dish_editor_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/DesTextView" />
@@ -44,13 +43,13 @@
                 android:id="@+id/DescriptionTextEditor" />
 
             <CheckBox
-                android:text="Is Known"
+                android:text="@string/dish_editor_is_known_checkbox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/isKnownCheckBox" />
 
             <TextView
-                android:text="Date"
+                android:text="@string/dish_editor_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/DateTextView" />
@@ -77,10 +76,22 @@
                 android:focusable="false"/>
 
             <Button
-                android:text="Add ingredient"
+                android:text="@string/action_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/AddIngredientButton" />
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/dishEditorEditButton" />
+
+            <Button
+                android:text="@string/action_add_ingredient"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/AddIngredientButton"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="10dp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -88,18 +99,23 @@
                 android:layout_height="match_parent">
 
                 <Button
-                    android:text="Cancel"
+                    android:text="@string/action_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/IngredientCancelButton"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginRight="5dp"/>
 
                 <Button
-                    android:text="Confirm"
+                    android:text="@string/action_confirm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/IngredientConfirmButton"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"/>
             </LinearLayout>
 
         </LinearLayout>

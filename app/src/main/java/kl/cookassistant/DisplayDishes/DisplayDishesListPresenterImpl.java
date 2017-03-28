@@ -1,9 +1,7 @@
 package kl.cookassistant.DisplayDishes;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,6 @@ import cookingAssistant.kevin92.com.R;
 import kl.cookassistant.DataModel.Dish;
 import kl.cookassistant.DataModel.Tag;
 import kl.cookassistant.DataModel.User;
-import kl.cookassistant.DishEditor.DishEditorActivity;
 import kl.cookassistant.GlobalVars;
 import kl.cookassistant.Interfaces.DisplayDishesListPresenter;
 
@@ -73,7 +70,7 @@ public class DisplayDishesListPresenterImpl implements DisplayDishesListPresente
         if(onSearch){
             List<Tag> ingredientList = mGV.getIngredientList();
             this.data = getSearchResult(ingredientList);
-            context.hidefloatingAddButton();
+            context.hideFloatingAddButton();
         }
         else{
             this.data = getDishes();
@@ -120,7 +117,7 @@ public class DisplayDishesListPresenterImpl implements DisplayDishesListPresente
                 row = inflater.inflate(layoutResourceId, parent, false);
                 holder = new DishHolder();
                 holder.DishName = (TextView) row.findViewById(R.id.itemText);
-                holder.btnEdit = (Button) row.findViewById(R.id.itemViewButtom);
+                holder.btnView = (Button) row.findViewById(R.id.itemViewButtom);
                 holder.btnDelete = (Button) row.findViewById(R.id.itemDeleteButtom);
                 row.setTag(holder);
             } else {
@@ -128,13 +125,15 @@ public class DisplayDishesListPresenterImpl implements DisplayDishesListPresente
             }
             Dish singleDish = data.get(position);
             holder.DishName.setText(singleDish.getName());
-            holder.btnEdit.setOnClickListener(new View.OnClickListener() {
+            holder.btnView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     boolean createMode = false;
+                    boolean viewMode = true;
                     int position = dishList.getPositionForView((View)v.getParent());
                     mGV.setCreateMode(createMode);
+                    mGV.setIsView(viewMode);
                     mGV.setCurrentDish(data.get(position));
                     context.navigateToDishEditorActivity();
                 }
@@ -170,7 +169,7 @@ public class DisplayDishesListPresenterImpl implements DisplayDishesListPresente
 
         class DishHolder {
             TextView DishName;
-            Button btnEdit;
+            Button btnView;
             Button btnDelete;
         }
     }

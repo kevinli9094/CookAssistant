@@ -36,7 +36,10 @@
                 android:text="add new type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/addTypeButton" />
+                android:id="@+id/addTypeButton"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginBottom="10dp"/>
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -47,14 +50,21 @@
                     android:text="OK"
                     android:layout_width="176dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/newTypeOkbutton" />
+                    android:id="@+id/newTypeOkbutton"
+                    android:background="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"/>
 
                 <Button
                     android:text="Cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/newTypeCancelbutton"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@color/colorAccent"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="10dp"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

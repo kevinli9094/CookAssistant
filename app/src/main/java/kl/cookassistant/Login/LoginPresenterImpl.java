@@ -100,13 +100,13 @@ public class LoginPresenterImpl implements LoginPresenter{
             int duration = Toast.LENGTH_SHORT;
             Toast toast;
             if(result>0){
-                text = "Successfully login";
+                text = context.getIdString(R.string.success_login);
                 context.saveLoginInfo(result, email, password);
                 context.rememberMeCheck();
                 context.navigateToMainMenu();
             }
             else{
-                text = "Fail to login";
+                text = context.getIdString(R.string.error_incorrect_account_or_password);
             }
             toast = Toast.makeText(context,text, duration);
             toast.show();
@@ -115,7 +115,7 @@ public class LoginPresenterImpl implements LoginPresenter{
     }
 
     public void OnRegisterButtonClick(){
-        CharSequence text;
+        CharSequence text = "";
         int duration = Toast.LENGTH_SHORT;
         Toast toast;
         if(mEmailView == null ){
@@ -136,11 +136,13 @@ public class LoginPresenterImpl implements LoginPresenter{
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(context.getIdString(R.string.error_field_required));
+            text = context.getIdString(R.string.error_field_required);
+            mEmailView.setError(text);
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(context.getIdString(R.string.error_invalid_email));
+            text = context.getIdString(R.string.error_invalid_email);
+            mEmailView.setError(text);
             focusView = mEmailView;
             cancel = true;
         }
@@ -148,21 +150,17 @@ public class LoginPresenterImpl implements LoginPresenter{
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-            text = "Invalid Input";
-            toast = Toast.makeText(context,text, duration);
-            toast.show();
-
         } else {
             password = encryption.encryptOrNull(password);
             if(model.tryRegister(email, password)){
-                text = "Successfully registered";
+                text = context.getIdString(R.string.success_registered);
             }
             else{
-                text = "Fail to register";
+                text = context.getIdString(R.string.error_registered);
             }
-            toast = Toast.makeText(context,text, duration);
-            toast.show();
         }
+        toast = Toast.makeText(context,text, duration);
+        toast.show();
     }
 
     public long tryGoogleLogin(String ID){

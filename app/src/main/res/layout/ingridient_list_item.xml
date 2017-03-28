@@ -3,21 +3,27 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <Button
-        android:text="Delete"
+        android:text="@string/action_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="21dp"
-        android:id="@+id/IngridientDeleteButton" />
+        android:id="@+id/IngridientDeleteButton"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
         android:text="TextView"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/ingredientTextView"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="18sp"
-        android:paddingTop="10dp" />
+        android:textAlignment="gravity"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/IngridientDeleteButton"
+        android:layout_alignTop="@+id/IngridientDeleteButton" />
 </RelativeLayout>

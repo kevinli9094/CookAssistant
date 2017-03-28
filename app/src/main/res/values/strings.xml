@@ -1,17 +1,63 @@
 <resources>
     <string name="app_name">Cook Assistant</string>
-    
-    <!-- Strings related to login -->
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password (optional)</string>
+    <!--buttons-->
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="action_register">Register</string>
+
+    <string name="action_known_dish">Known Dishes</string>
+    <string name="action_unknow_dish">Unknow Dishes</string>
+    <string name="action_search">Search</string>
+    <string name="action_shopping_list">Shopping List</string>
+    <string name="action_tag_manager">Tag Manager</string>
+    <string name="action_log_out">Log Out</string>
+    <string name="action_quit">Quit</string>
+
+    <string name="action_delete">Delete</string>
+    <string name="action_view">View</string>
+
+    <string name="action_edit">Edit</string>
+    <string name="action_add_ingredient">Add Ingredient</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_confirm">Confirm</string>
+
+    <string name="action_add_to_shopping_list">Add To List</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_remember_me">Remember me</string>
+    <string name="success_login">Successfully login</string>
+    <string name="success_registered">Successfully registered</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_incorrect_account_or_password">This account/password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="error_registered">Fail to registered(possible reason: account already exist)</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="sign_in_method">signInMethod</string>
+    <string name="sign_in_method_email">email</string>
+    <string name="sign_in_method_google">google</string>
+    <string name="shared_preferences_email">email</string>
+    <string name="shared_preferences_password">password</string>
+    <string name="shared_preferences_id">id</string>
+    <string name="shared_preferences_is_login">isLogin</string>
+
+    <!-- Strings related to Main menu -->
+    <string name="text_view_main_menu">Main Menu</string>
+
+
+    <!-- Strings related to Display Dishes List -->
+
+
+    <!-- Strings related to dish editor -->
+    <string name="dish_editor_name">Name</string>
+    <string name="dish_editor_description">Description</string>
+    <string name="dish_editor_is_known_checkbox">Is Known</string>
+    <string name="dish_editor_date">Date</string>
+
+    <!-- Strings related to shoping list -->
+    <string name="shopping_list_edit_text_hint">New item</string>
 </resources>

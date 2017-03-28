@@ -38,6 +38,7 @@ public class DishEditorPresenterImpl implements DishEditorPresenter{
     private Dish currentDish;
     private List<Tag> ingredients;
     private boolean createMode;
+    private boolean viewMode;
     private DishIngredientsAdapter mAdapter;
     private ListView IngredientListView;
 
@@ -58,6 +59,8 @@ public class DishEditorPresenterImpl implements DishEditorPresenter{
         mAdapter = new DishIngredientsAdapter(context, R.layout.ingridient_list_item, ingredients);
         IngredientListView = context.getListView();
         IngredientListView.setAdapter(mAdapter);
+        viewMode = mGV.getIsView();
+        setViewOrEditMode(viewMode);
         context.setListViewHeight(ingredients.size());
         context.getNameTextEditor().setText(currentDish.getName());
         context.getDescriptionTextEditor().setText(currentDish.getDescription());
@@ -71,6 +74,36 @@ public class DishEditorPresenterImpl implements DishEditorPresenter{
 
     private boolean createDish(Dish newDish){
         return model.createDish(newDish);
+    }
+
+    private void setViewOrEditMode(boolean view){
+        mAdapter.notifyDataSetChanged();
+        if(view){
+            context.getEditButton().setVisibility(View.VISIBLE);
+            context.getAddIngredientButton().setVisibility(View.GONE);
+            context.getIngredientCancelButton().setVisibility(View.GONE);
+            context.getIngredientConfirmButton().setVisibility(View.GONE);
+            context.getNameTextEditor().setEnabled(false);
+            context.getDescriptionTextEditor().setEnabled(false);
+            context.getDateTextEditor().setEnabled(false);
+            context.getIsKnownCheckBox().setClickable(false);
+        }
+        else{
+            context.getEditButton().setVisibility(View.GONE);
+            context.getAddIngredientButton().setVisibility(View.VISIBLE);
+            context.getIngredientCancelButton().setVisibility(View.VISIBLE);
+            context.getIngredientConfirmButton().setVisibility(View.VISIBLE);
+            context.getNameTextEditor().setEnabled(true);
+            context.getDescriptionTextEditor().setEnabled(true);
+            context.getDateTextEditor().setEnabled(true);
+            context.getIsKnownCheckBox().setClickable(true);
+        }
+    }
+
+    public void onEditButtonClicked(){
+        this.viewMode = false;
+        mGV.setIsView(this.viewMode);
+        setViewOrEditMode(this.viewMode);
     }
 
     public void onAddIngredientButtonClicked(){
@@ -181,6 +214,12 @@ public class DishEditorPresenterImpl implements DishEditorPresenter{
                     mAdapter.notifyDataSetChanged();
                 }
             });
+            if(viewMode){
+                holder.btnDelete.setVisibility(View.GONE);
+            }
+            else{
+                holder.btnDelete.setVisibility(View.VISIBLE);
+            }
             return row;
 
         }

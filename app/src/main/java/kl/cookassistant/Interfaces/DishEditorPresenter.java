@@ -8,6 +8,7 @@ import kl.cookassistant.DishEditor.DishEditorActivity;
  */
 
 public interface DishEditorPresenter {
+    void onEditButtonClicked();
 
     void onAddIngredientButtonClicked();
 

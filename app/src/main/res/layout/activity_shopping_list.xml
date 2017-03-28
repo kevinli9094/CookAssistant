@@ -23,13 +23,15 @@
                 android:inputType="textPersonName"
                 android:ems="10"
                 android:id="@+id/shoppingListEditText"
-                android:hint="new item" />
+                android:hint="@string/shopping_list_edit_text_hint" />
 
             <Button
-                android:text="Add to list"
+                android:text="@string/action_add_to_shopping_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/shoppingList_AddToListButton" />
+                android:id="@+id/shoppingList_AddToListButton"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

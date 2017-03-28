@@ -24,6 +24,10 @@
         android:layout_marginStart="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:fontFamily="sans-serif"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/shoppingListDeleteButton" />
+        android:layout_toEndOf="@+id/shoppingListDeleteButton"
+        android:textAlignment="gravity"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_alignParentBottom="false"
+        android:layout_alignTop="@+id/shoppingListCheckBox"
+        android:layout_alignBottom="@+id/shoppingListCheckBox" />
 </RelativeLayout>

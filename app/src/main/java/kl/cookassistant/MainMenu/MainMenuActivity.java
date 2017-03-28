@@ -59,7 +59,7 @@ public class MainMenuActivity extends AppCompatActivity {
         finish();
     }
     public void navigateToLogin(){
-        sharedPreferencesEditor.putBoolean("isLogin", false).commit();
+        sharedPreferencesEditor.putBoolean(getString(R.string.shared_preferences_is_login), false).commit();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
@@ -75,11 +75,11 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
 
-        sharedPreferences = getSharedPreferences("CookingAssistant", MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
         sharedPreferencesEditor = sharedPreferences.edit();
-        Long id = sharedPreferences.getLong("id", 0);
-        String encodedPassword = sharedPreferences.getString("password", null);
-        String email = sharedPreferences.getString("email", null);
+        Long id = sharedPreferences.getLong(getString(R.string.shared_preferences_id), 0);
+        String encodedPassword = sharedPreferences.getString(getString(R.string.shared_preferences_password), null);
+        String email = sharedPreferences.getString(getString(R.string.shared_preferences_email), null);
         User currentUser = new User(id,encodedPassword, email);
         mGV = GlobalVars.getInstance(currentUser);
 

@@ -39,6 +39,7 @@ public class DishEditorActivity extends AppCompatActivity {
     private EditText descriptionTextEditor;
     private EditText dateTextEditor;
     private CheckBox isKnownCheckBox;
+    private Button editButton;
     private Button addIngredientButton;
     private Button ingredientCancelButton;
     private Button ingredientConfirmButton;
@@ -69,6 +70,10 @@ public class DishEditorActivity extends AppCompatActivity {
     public CheckBox getIsKnownCheckBox(){
         return this.isKnownCheckBox;
     }
+    public Button getEditButton(){return this.editButton;}
+    public Button getAddIngredientButton(){return this.addIngredientButton;}
+    public Button getIngredientCancelButton(){return this.ingredientCancelButton;}
+    public Button getIngredientConfirmButton(){return this.ingredientConfirmButton;}
 
     public void navigateToTagsManagerActivity(){
         startActivity(new Intent(DishEditorActivity.this, TagsManagerActivity.class));
@@ -88,6 +93,7 @@ public class DishEditorActivity extends AppCompatActivity {
         dateTextEditor = (EditText) findViewById(R.id.DateTextEditor);
         dateTextEditor.setKeyListener(null);
         isKnownCheckBox = (CheckBox) findViewById(R.id.isKnownCheckBox);
+        editButton = (Button) findViewById(R.id.dishEditorEditButton);
         addIngredientButton =(Button) findViewById(R.id.AddIngredientButton);
         ingredientCancelButton = (Button)findViewById(R.id.IngredientCancelButton);
         ingredientConfirmButton = (Button) findViewById(R.id.IngredientConfirmButton);
@@ -95,6 +101,13 @@ public class DishEditorActivity extends AppCompatActivity {
         IngredientListView = (ListView) findViewById(R.id.IngredientsList);
 
         presenter = new DishEditorPresenterImpl(this);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onEditButtonClicked();
+            }
+        });
 
         addIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override

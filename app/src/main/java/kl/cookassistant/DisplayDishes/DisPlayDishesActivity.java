@@ -54,7 +54,7 @@ public class DisPlayDishesActivity extends AppCompatActivity {
         startActivity(new Intent(this, TagsManagerActivity.class));
         finish();
     }
-    public void hidefloatingAddButton(){
+    public void hideFloatingAddButton(){
         floatingAddButton.setVisibility(View.GONE);
     }
 
